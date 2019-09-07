@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://tolozine.github.io</id>
     <title>淘乐志</title>
-    <updated>2019-09-07T11:54:19.125Z</updated>
+    <updated>2019-09-07T12:10:45.612Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://tolozine.github.io"/>
     <link rel="self" href="https://tolozine.github.io/atom.xml"/>
@@ -10,6 +10,23 @@
     <logo>https://tolozine.github.io/images/avatar.png</logo>
     <icon>https://tolozine.github.io/favicon.ico</icon>
     <rights>All rights reserved 2019, 淘乐志</rights>
+    <entry>
+        <title type="html"><![CDATA[一分钟了解Sketch落后于Figma的部分]]></title>
+        <id>https://tolozine.github.io/post/sketch-figma01</id>
+        <link href="https://tolozine.github.io/post/sketch-figma01">
+        </link>
+        <updated>2019-09-07T11:56:31.000Z</updated>
+        <content type="html"><![CDATA[<p>作为sketch用户，你一定对sketch组件（symbols）一定不陌生，在一定程度上提高设计一致性和设计效率。目前来看sketch工具对图层样式，字体样式，组件管理有着比较强的逻辑。特别是在sketch更新55.2后，可以将组件内的图层样式/字体样式抽离出来，方便于定义不同的样式需求。</p>
+<p>但由于sketch的字体样式要求对细节定义。它定义字体规则的时候会详细到，字体类型，字体大小，字体对齐方式，字间距，行高等，只能通过定义多个字体样式来进行管理。不够灵活。</p>
+<p>庆幸的是字体样式的管理是可以通过命名来进行分组（图层样式，组件亦如此）的例如：</p>
+<pre><code>大标题/红色/左对齐
+</code></pre>
+<p>类似这种，我们可以根据分组进行寻找。但是效率实在太低。</p>
+<p>figma在这点上，就做的非常的宽容。</p>
+<p>只定义字体类型，字号即可。关于对齐方式，字体颜色可以自行调整。可以说对设计非常宽容。或许不同的设计师的工作流是不一样的。但是我觉得我在使用figma的字体样式时候，就有一种亲切感。未来sketch或许也会向这个方向尝试吧。</p>
+<p>期待更好的设计工具。或许我就是一个工具控</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://tolozine.github.io/post/hello-gridea</id>
