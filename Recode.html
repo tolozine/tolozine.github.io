@@ -1,31 +1,114 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <title>BW Recode Mobile data</title>
+    <style>
+        body{
+            margin:2em auto; padding:0; width:98%;
+            background:#f5f5f5;
+            font:24px;
+        }
+        ul,li{ margin:0; padding:0; list-style:none;}
+        li{ margin:2em 0em; clear:both;}
+
+        li h2{ font-weight:bold; font-size:1em;}
+
+        li.input{
+            margin:5%;
+            width:94%;
+        }
+        li .radio{
+            width:10%;
+            float:left;
+        }
+        li input, li select{
+            width:98%;
+            height:2em;
+            font-size:24px;
+        }
+        li .half{
+            width:45%;
+            float:left;
+            margin:0 5px;
+        }
+        .bg{
+            padding:5px;
+            background:#fff;
+            clear:both;
+            min-height:1em;
+        }
+        .btn{
+            width:100%;
+            margin:0 auto;
+            height:2em;
+            line-height:2em;
+            font-size:2em;
+            background:#ffcc00;
+         }
+    </style>
 </head>
 <body>
 <ul id="info_input">
-    <li>生产线</li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
+    <li>
+        <h2>生产线</h2>
+        <div class="bg">
+           <div class="half"> <input type="radio" class="radio" id="Line1" value="Line1" name="line" /><label for="Line1">一线</label> </div> 
+           <div class="half"> <input type="radio" class="radio" id="Line2" value="Line2" name="line" /><label for="Line2">二线</label> </div>
+       </div>
+    </li>
+
+    <li>
+        <h2>车号</h2>
+        <div class="bg"><input id="id" value="" /></div>
+    </li>
+
+    <li><h2>涂层</h2>
+        <div class="bg">
+            <select name="layer" id="layer">
+              <option value="">请选择</option>
+              <option value="/">请选择</option>
+            </select>
+        </div>
+    </li>
+
+    <li>
+    <h2>位置</h2>
+       <div class="bg">
+        <select name="position" id="position">
+              <option value="">请选择</option>
+            </select>
+       </div>
+    </li>
+    
+    <li><h2>时间</h2>
+         <div class="bg">
+            <input id="time1" type="time" class="half" value="" /><input id="time2" type="time"  class="half" value="" />
+          </div>
+    </li>
+    
+    <li><h2>种类</h2>
+        <div class="bg">
+        
+        <select name="type" id="type">
+              <option value="">请选择</option>
+            </select>
+
+        
+        </div>
+    </li>
 </ul>
+<div><input type="submit" value="保存" class="btn" /></div>
+<hr>
+<div><input type="submit" value="下载excel文件" class="btn" /></div>
+
 </body>
 </html>
-<table id="info_result">
-<tr>
-    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th>
-</tr>
-<tr>
-    <td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
+<table id="info_result" style="display:none;">
+    <tr>
+        <th>生产线</th><th>车号</th><th>涂层</th><th>位置</th><th>时间</th><th>种类</th>
+    </tr>
+    <tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td>
+    </tr>
 </table>
