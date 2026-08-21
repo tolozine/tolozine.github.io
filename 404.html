@@ -30,7 +30,7 @@
   (function () {
     try {
       var saved = localStorage.getItem('flavor-theme');
-      var theme = saved || 'dark';
+      var theme = saved || 'light';
       if (theme === 'light') {
         document.documentElement.classList.add('theme-light');
       }
@@ -65,7 +65,7 @@
       <div class="top-bar__left">
         
         <a href="https://tolozine.github.io" class="site-avatar-link" aria-label="返回首页">
-          <img class="site-avatar" src="/images/avatar.png" alt="Tolozine‘Blog" />
+          <img class="site-avatar" src="/images/theme/Tolozine LOGO.png" alt="Tolozine‘Blog" />
         </a>
         
         <a href="https://tolozine.github.io" class="site-name-link">Tolozine‘Blog</a>
@@ -82,6 +82,8 @@
         <a class="nav-item" href="/archives">归档</a>
         
         <a class="nav-item" href="/post/about">关于</a>
+        
+        <a class="nav-item" href="/memos">小记</a>
         
         
       </nav>
@@ -205,6 +207,8 @@
       
       <a class="footer-nav__link" href="/post/about">关于</a>
       
+      <a class="footer-nav__link" href="/memos">小记</a>
+      
     </nav>
     
 
@@ -226,10 +230,6 @@
     </div>
 
     
-    
-    <div class="footer-custom">
-      Powered by Gridea Pro
-    </div>
     
 
     
