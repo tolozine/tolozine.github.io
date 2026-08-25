@@ -200,6 +200,98 @@
 
   <div class="memo-timeline">
     
+    <div class="memo-item" data-created="2026-08-25">
+      <div class="memo-item__marker"></div>
+      <div class="memo-item__card">
+        <div class="memo-item__content article-content">
+          <h2 id="heading">自动写入长期记忆</h2>
+<ul>
+<li>每个任务完成前，判断是否产生了值得长期保留的新信息。</li>
+<li>符合以下任一条件时，自动更新对应的 <code>memory/*.md</code>：
+<ul>
+<li>用户确认了产品规格、品牌规则或重要决策。</li>
+<li>形成了可重复使用的工作流程、提示词规则或检查标准。</li>
+<li>解决了可能再次遇到的技术问题。</li>
+<li>创建或更新了重要文件、脚本、Skill 或产品参考路径。</li>
+<li>旧结论被修正、替代或确认失效。</li>
+</ul>
+</li>
+<li>新增项目、重大定位或跨项目原则时，同时更新 <code>PROJECT_MEMORY.md</code>。</li>
+<li>不记录临时网页状态、一次性生成进度、未经确认的推测、当前磁盘空间和短期待办。</li>
+<li>写入前先搜索现有记忆，优先合并或修正，不重复追加同一结论。</li>
+<li>记录事实来源、更新时间和仍需验证的边界。</li>
+<li>任务交付时用一句话说明：
+<ul>
+<li><code>长期记忆：已更新 &lt;文件&gt;</code></li>
+<li>或 `长期记忆：本次没有需要固化的新内容</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        <time class="memo-item__date meta-text">2026-08-25</time>
+      </div>
+    </div>
+    
+    <div class="memo-item" data-created="2026-08-25">
+      <div class="memo-item__marker"></div>
+      <div class="memo-item__card">
+        <div class="memo-item__content article-content">
+          <h2 id="heading">长期维护</h2>
+<ul>
+<li><code>AGENTS.md</code> 只保存稳定的项目规则、导航和工作约定，不堆积大段原始知识正文。</li>
+<li><code>PROJECT_MEMORY.md</code> 是长期记忆总索引，<code>memory/</code> 保存分项目记忆和任务覆盖清单。</li>
+<li>更新长期记忆时，稳定原则写入对应分项目文件；一次性状态只写入历史记录或任务覆盖清单。</li>
+<li>新增重要知识文档后，应同步更新本文件或 <code>PROJECT_MEMORY.md</code> 中的入口。</li>
+<li>临时任务状态、一次性待办和未经确认的想法，不应写入长期规则。</li>
+</ul>
+
+        </div>
+        <time class="memo-item__date meta-text">2026-08-25</time>
+      </div>
+    </div>
+    
+    <div class="memo-item" data-created="2026-08-25">
+      <div class="memo-item__marker"></div>
+      <div class="memo-item__card">
+        <div class="memo-item__content article-content">
+          <h2 id="heading">执行与输出约定</h2>
+<ul>
+<li>默认使用中文沟通；代码、命令、文件名和行业固定术语可保留英文。</li>
+<li>输出中区分项目资料中的事实、分析判断和建议。</li>
+<li>修改代码或文档前先阅读相关文件，并保持现有结构、命名和风格。</li>
+<li>修改范围应紧贴当前任务，不进行无关重构或格式化。</li>
+<li>能执行验证时应进行验证，并在交付时说明验证结果；无法验证时明确说明原因。</li>
+<li>创建新文件时使用清晰、可检索的名称，并优先放入现有对应分类目录。</li>
+</ul>
+
+        </div>
+        <time class="memo-item__date meta-text">2026-08-25</time>
+      </div>
+    </div>
+    
+    <div class="memo-item" data-created="2026-08-25">
+      <div class="memo-item__marker"></div>
+      <div class="memo-item__card">
+        <div class="memo-item__content article-content">
+          <h2 id="heading">基本工作原则</h2>
+<ul>
+<li>在回答或执行项目前，先理解用户真正想解决的问题，并考虑可能存在的不同角度。</li>
+<li>每个新任务先读取 <code>PROJECT_MEMORY.md</code>，再根据其中的分项目入口读取相关记忆和权威资料。</li>
+<li>不要只依赖聊天历史；本目录中的文件是项目事实、规范和历史结论的主要来源。</li>
+<li>开始任务前，先使用文件名和正文搜索定位相关资料，再按需读取最相关的文件。</li>
+<li>不要为了建立上下文而一次性读取全部目录，尤其不要批量读取 <code>generated/</code> 中的图片。</li>
+<li>引用项目已有结论时，应注明来源文件；不得把推测表述为项目既有事实。</li>
+<li>当不同文件互相冲突时，明确指出冲突及各自来源，并询问或根据最新、最权威的资料判断。</li>
+<li>新形成且值得长期保留的结论，应整理到对应 Markdown 文档中，而不是只留在聊天记录里。</li>
+<li>未经用户要求，不要覆盖原始资料、批量移动文件或删除生成资产。</li>
+</ul>
+
+        </div>
+        <time class="memo-item__date meta-text">2026-08-25</time>
+      </div>
+    </div>
+    
     <div class="memo-item" data-created="2026-08-21">
       <div class="memo-item__marker"></div>
       <div class="memo-item__card">
