@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="/styles/main.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+
+
+<style>:root { --heatmap-color: #39d353; }</style>
+
+
+
+<style>
+  .theme-toggle-sun  { display: flex; }
+  .theme-toggle-moon { display: none; }
+  :root.theme-light .theme-toggle-sun  { display: none; }
+  :root.theme-light .theme-toggle-moon { display: flex; }
+</style>
+
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('flavor-theme');
+      var theme = saved || 'light';
+      if (theme === 'light') {
+        document.documentElement.classList.add('theme-light');
+      }
+    } catch (e) { }
+  })();
+</script>
+  <meta name="generator" content="Gridea Pro 1.2.2">
+  <title>Blender照明与材质课程完整总结 | Tolozine‘Blog</title>
+  
+<meta property="og:title" content="Blender照明与材质课程完整总结" />
+<meta property="og:type" content="article" />
+
+
+<meta name="description" content="Blender 3D 设计：照明与材质效果 · 完整课程总结 课程：Blender 3D Design Lighting and Materials（照明与材质效果视频教程） 讲师：Derek Elliott（3D Blender 产品动画师） 共 8 节课，合计约 48 分钟。字幕来源：本教程 8 个 .srt 字幕文件。 课程概览 本课程从零开始讲解 Bl&amp;hellip;">
+<link rel="canonical" href="https://tolozine.github.io/post/blenderzhao-ming-yu-cai-zhi-ke-cheng-wan-zheng-zong-jie/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Blender照明与材质课程完整总结","url":"https://tolozine.github.io/post/blenderzhao-ming-yu-cai-zhi-ke-cheng-wan-zheng-zong-jie/","description":"Blender 3D 设计：照明与材质效果 · 完整课程总结 课程：Blender 3D Design Lighting and Materials（照明与材质效果视频教程） 讲师：Derek Elliott（3D Blender 产品动画师） 共 8 节课，合计约 48 分钟。字幕来源：本教程 8 个 .srt 字幕文件。 课程概览 本课程从零开始讲解 Bl\u0026hellip;","datePublished":"2026-09-06T09:43:51+08:00","dateModified":"2026-09-06T09:48:28+08:00","author":{"@type":"Person","name":"Tolozine‘Blog"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/avatar.png"},"name":"Tolozine‘Blog"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://tolozine.github.io","name":"Tolozine‘Blog","position":1},{"@type":"ListItem","item":"https://tolozine.github.io/post/blenderzhao-ming-yu-cai-zhi-ke-cheng-wan-zheng-zong-jie/","name":"Blender照明与材质课程完整总结","position":2}]}</script>
+<meta property="og:title" content="Blender照明与材质课程完整总结">
+<meta property="og:description" content="Blender 3D 设计：照明与材质效果 · 完整课程总结 课程：Blender 3D Design Lighting and Materials（照明与材质效果视频教程） 讲师：Derek Elliott（3D Blender 产品动画师） 共 8 节课，合计约 48 分钟。字幕来源：本教程 8 个 .srt 字幕文件。 课程概览 本课程从零开始讲解 Bl&amp;hellip;">
+<meta property="og:url" content="https://tolozine.github.io/post/blenderzhao-ming-yu-cai-zhi-ke-cheng-wan-zheng-zong-jie/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tolozine‘Blog">
+<meta property="og:image" content="/images/avatar.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://tolozine.github.io/post/blenderzhao-ming-yu-cai-zhi-ke-cheng-wan-zheng-zong-jie/">
+<meta name="twitter:title" content="Blender照明与材质课程完整总结">
+<meta name="twitter:description" content="Blender 3D 设计：照明与材质效果 · 完整课程总结 课程：Blender 3D Design Lighting and Materials（照明与材质效果视频教程） 讲师：Derek Elliott（3D Blender 产品动画师） 共 8 节课，合计约 48 分钟。字幕来源：本教程 8 个 .srt 字幕文件。 课程概览 本课程从零开始讲解 Bl&amp;hellip;">
+<meta name="twitter:image" content="/images/avatar.png">
+<meta name="twitter:site" content="@tolozine">
+<meta name="twitter:creator" content="@tolozine">
+</head>
+<body class="flavor-theme">
+
+  <header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <div class="top-bar">
+
+      
+      <div class="top-bar__left">
+        
+        <a href="https://tolozine.github.io" class="site-avatar-link" aria-label="返回首页">
+          <img class="site-avatar" src="/images/theme/Tolozine LOGO.png" alt="Tolozine‘Blog" />
+        </a>
+        
+        <a href="https://tolozine.github.io" class="site-name-link">Tolozine‘Blog</a>
+      </div>
+
+      
+      <nav class="top-bar__nav" id="sectionBar">
+        
+        
+        <a class="nav-item" href="/">首页</a>
+        
+        <a class="nav-item" href="/post">博客</a>
+        
+        <a class="nav-item" href="/archives">归档</a>
+        
+        <a class="nav-item" href="/post/about">关于</a>
+        
+        <a class="nav-item" href="/memos">小记</a>
+        
+        
+      </nav>
+
+      
+      <div class="top-bar__right">
+        <button class="btn-icon btn-search search-btn" id="btnSearch" type="button" aria-label="搜索">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <button class="btn-icon theme-toggle theme-toggle-sun" id="themeToggleSun" type="button"
+          aria-label="切换到浅色模式">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1C12.5523 1 13 1.44772 13 2V4C13 4.55228 12.5523 5 12 5C11.4477 5 11 4.55228 11 4V2C11 1.44772 11.4477 1 12 1Z"></path>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12ZM12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z"></path>
+            <path d="M13 20C13 19.4477 12.5523 19 12 19C11.4477 19 11 19.4477 11 20V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V20Z"></path>
+            <path d="M4.22282 4.22289C4.61335 3.83236 5.24651 3.83236 5.63704 4.22289L7.04704 5.63289C7.43756 6.02341 7.43756 6.65658 7.04704 7.0471C6.65651 7.43762 6.02335 7.43762 5.63283 7.0471L4.22282 5.6371C3.8323 5.24658 3.8323 4.61341 4.22282 4.22289Z"></path>
+            <path d="M18.367 16.9529C17.9765 16.5623 17.3433 16.5623 16.9528 16.9529C16.5623 17.3434 16.5623 17.9766 16.9528 18.3671L18.3628 19.7771C18.7533 20.1676 19.3865 20.1676 19.777 19.7771C20.1675 19.3866 20.1675 18.7534 19.777 18.3629L18.367 16.9529Z"></path>
+            <path d="M1 12C1 11.4477 1.44772 11 2 11H4C4.55228 11 5 11.4477 5 12C5 12.5523 4.55228 13 4 13H2C1.44772 13 1 12.5523 1 12Z"></path>
+            <path d="M20 11C19.4477 11 19 11.4477 19 12C19 12.5523 19.4477 13 20 13H22C22.5523 13 23 12.5523 23 12C23 11.4477 22.5523 11 22 11H20Z"></path>
+            <path d="M7.04704 16.9529C7.43756 17.3434 7.43756 17.9766 7.04704 18.3671L5.63704 19.7771C5.24651 20.1676 4.61335 20.1676 4.22282 19.7771C3.8323 19.3866 3.8323 18.7534 4.22283 18.3629L5.63283 16.9529C6.02335 16.5623 6.65651 16.5623 7.04704 16.9529Z"></path>
+            <path d="M19.777 5.6371C20.1675 5.24657 20.1675 4.61341 19.777 4.22289C19.3865 3.83236 18.7533 3.83236 18.3628 4.22289L16.9528 5.63289C16.5623 6.02341 16.5623 6.65658 16.9528 7.0471C17.3433 7.43762 17.9765 7.43762 18.367 7.0471L19.777 5.6371Z"></path>
+          </svg>
+        </button>
+        <button class="btn-icon theme-toggle theme-toggle-moon" id="themeToggleMoon" type="button"
+          aria-label="切换到深色模式">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 11.5955 21.7564 11.2309 21.3827 11.0761C21.009 10.9213 20.5789 11.0069 20.2929 11.2929C19.287 12.2988 17.9226 12.864 16.5 12.864C15.0774 12.864 13.713 12.2988 12.7071 11.2929C11.7012 10.287 11.136 8.92261 11.136 7.5C11.136 6.07739 11.7012 4.71304 12.7071 3.70711C12.9931 3.42111 13.0787 2.99099 12.9239 2.61732C12.7691 2.24364 12.4045 2 12 2ZM7.55544 5.34824C8.27036 4.87055 9.05353 4.51389 9.87357 4.28778C9.39271 5.27979 9.13604 6.37666 9.13604 7.5C9.13604 9.45304 9.91189 11.3261 11.2929 12.7071C12.6739 14.0881 14.547 14.864 16.5 14.864C17.6233 14.864 18.7202 14.6073 19.7122 14.1264C19.4861 14.9465 19.1295 15.7296 18.6518 16.4446C17.7727 17.7602 16.5233 18.7855 15.0615 19.391C13.5997 19.9965 11.9911 20.155 10.4393 19.8463C8.88743 19.5376 7.46197 18.7757 6.34315 17.6569C5.21447 16.538 4.4624 15.1126 4.15372 13.5607C3.84504 12.0089 4.00347 10.4003 4.60897 8.93853C5.21447 7.47672 6.23985 6.22729 7.55544 5.34824Z"></path>
+            <path d="M19 2C19.5523 2 20 2.44772 20 3V4H21C21.5523 4 22 4.44772 22 5C22 5.55228 21.5523 6 21 6H20V7C20 7.55228 19.5523 8 19 8C18.4477 8 18 7.55228 18 7V6H17C16.4477 6 16 5.55228 16 5C16 4.44772 16.4477 4 17 4H18V3C18 2.44772 18.4477 2 19 2Z"></path>
+          </svg>
+        </button>
+        <button class="btn-icon btn-nav-toggle mobile-only" id="btnNavToggle" type="button" aria-label="切换导航">
+          <div class="hamburger" id="hamburger">
+            <span class="hamburger__line hamburger__line--top"></span>
+            <span class="hamburger__line hamburger__line--bottom"></span>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<div class="header-spacer"></div>
+
+<script>
+(function(){
+  var btn = document.getElementById('btnNavToggle');
+  var nav = document.getElementById('sectionBar');
+  var hamburger = document.getElementById('hamburger');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      nav.classList.toggle('top-bar__nav--open');
+      if (hamburger) hamburger.classList.toggle('is-active');
+    });
+    nav.querySelectorAll('.nav-item').forEach(function(item){
+      item.addEventListener('click', function(){
+        nav.classList.remove('top-bar__nav--open');
+        if (hamburger) hamburger.classList.remove('is-active');
+      });
+    });
+  }
+
+  var root = document.documentElement;
+  var applyTheme = function(theme, persist){
+    if (theme === 'light') {
+      root.classList.add('theme-light');
+    } else {
+      root.classList.remove('theme-light');
+    }
+    if (persist) {
+      try { localStorage.setItem('flavor-theme', theme); } catch (e) {}
+    }
+  };
+  document.querySelectorAll('.theme-toggle').forEach(function(el){
+    el.addEventListener('click', function(){
+      applyTheme(root.classList.contains('theme-light') ? 'dark' : 'light', true);
+    });
+  });
+})();
+</script>
+
+  <main class="site-main" role="main">
+    
+<article class="article-container">
+  <header class="article-header">
+    <h1 class="article-title">Blender照明与材质课程完整总结</h1>
+    <div class="article-meta">
+      
+      
+      <a href="/category/blender/" class="article-meta__category">Blender</a>
+      
+      
+      <span class="article-meta__sep">·</span>
+      
+      <span class="article-meta__item">2026-09-06</span>
+      
+      <span class="article-meta__sep">·</span>
+      <span class="article-meta__item">9 分钟阅读</span>
+      
+    </div>
+    
+    <div class="article-header__tags">
+      
+      <a href="/tag/blender/" class="tag-pill tag-pill--sm">Blender</a>
+      
+    </div>
+    
+  </header>
+
+  
+
+  <div class="article-content">
+    <h1 id="blender-3d---">Blender 3D 设计：照明与材质效果 · 完整课程总结</h1>
+<blockquote>
+<p>课程：Blender 3D Design Lighting and Materials（照明与材质效果视频教程）<br />
+讲师：Derek Elliott（3D Blender 产品动画师）<br />
+共 8 节课，合计约 48 分钟。字幕来源：本教程 8 个 .srt 字幕文件。</p>
+</blockquote>
+<hr />
+<h2 id="heading">课程概览</h2>
+<p>本课程从零开始讲解 Blender 中「照明」与「材质」两大核心模块，走通一条完整的工作流：</p>
+<p><strong>照明（Lighting）→ 材质（Materials）→ 纹理（Textures）→ 渲染出图（Render）</strong></p>
+<p>学完后你将能够：用 HDRI 和 2~3 盏灯打出专业场景光；用 Principled BSDF 做出金属、玻璃、皮肤/橡胶等真实材质；用程序纹理和图像纹理为表面添加细节；最后用正确的渲染设置输出高质量作品。</p>
+<hr />
+<h2 id="-1-introduction-1--40-">第 1 课：课程介绍（Introduction，约 1 分 40 秒）</h2>
+<ul>
+<li>讲师自我介绍：Derek Elliott，长期用 Blender 制作产品动画。</li>
+<li><strong>为什么照明和材质重要</strong>：想在 ArtStation、Behance 等平台接自由职业或被推荐作品，优秀的照明和材质是关键路径。</li>
+<li>破除误区：那些&quot;超写实&quot;材质往往只是加了几张贴图，不是花了几个小时。</li>
+<li>课程预告：HDRI 及其旋转、区域光、灯光颜色、金属材质、透射材质（玻璃）、次表面散射（皮肤/橡胶）、高效率渲染设置。</li>
+</ul>
+<hr />
+<h2 id="-2-discover-lighting-tools-6--10-">第 2 课：发现灯光工具（Discover Lighting Tools，约 6 分 10 秒）</h2>
+<p><strong>准备工作</strong>：下载最新版 Blender；准备好键盘鼠标；场景里放一个待照明的物体。分割视口，一侧设为渲染视图。</p>
+<p><strong>为什么没有灯也能看见物体</strong>：因为默认「世界背景」是灰色的。把世界颜色改为黑色或把强度降到 0，场景就会真正变黑。</p>
+<p><strong>灯光类型（Shift+A → 灯光）</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>灯光</th>
+<th>特点</th>
+<th>用法要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>点光 Point</td>
+<td>向四周均匀发光</td>
+<td>拖动围绕物体观察光影变化；初学者渲染太暗时&quot;不用担心电费&quot;，把功率调高</td>
+</tr>
+<tr>
+<td>区域光 Area</td>
+<td>讲师最爱，光线柔和</td>
+<td>投射面积大，能被场景中的平面反弹照明</td>
+</tr>
+<tr>
+<td>天空纹理 Sky</td>
+<td>场景照明利器</td>
+<td>调&quot;海拔&quot;控制太阳角度，&ldquo;旋转&quot;让太阳绕物体移动，从而控制阴影方向</td>
+</tr>
+<tr>
+<td>HDRI 环境贴图</td>
+<td>高动态范围图像，一次提供完整环境光</td>
+<td>在 World 设置中把 Nishita 天空换成 Environment Texture；节点变粉红 = 贴图丢失</td>
+</tr>
+</tbody>
+</table>
+<p><strong>自发光材质</strong>：给一个网格（如圆环+皮肤修改器）换成 Emission 发射着色器，网格自身就会发光，是新手把&quot;真实光线&quot;带进场景的好方法（讲师旧时最爱）。</p>
+<p><strong>HDRI 实操</strong>：</p>
+<ul>
+<li>免费资源站：Poly Haven（polyhaven.com），高清、免费。</li>
+<li>旋转 HDRI：先安装 <strong>Node Wrangler 插件</strong>（编辑 → 偏好设置 → 插件 → 搜索并启用），在着色器编辑器里把模式从&quot;物体&quot;切到&quot;世界&rdquo;，选中 HDRI 后按 <strong>Ctrl+T</strong> 自动生成&quot;纹理坐标 + 映射&quot;节点，改 Z 旋转值即可转动天空。</li>
+<li>HDRI 特别适合给金属物体带来独特的环境反射。</li>
+</ul>
+<p><strong>核心理念</strong>：不需要懂背后所有科学原理，Blender 的工作方式就是&quot;拖滑块看效果&quot;。</p>
+<hr />
+<h2 id="-3-learn-how-to-use-light-5--22-">第 3 课：学会用光（Learn How To Use Light，约 5 分 22 秒）</h2>
+<p>本课讲<strong>照明理论</strong>：用光营造氛围、引导视线到物体特定部位。实例：一只耳机模型（讲师自由职业项目）。</p>
+<p><strong>经典三步布光法</strong>：</p>
+<ol>
+<li><strong>边缘光（Rim Light）</strong>：区域光放物体后方，勾勒轮廓。注意把灯光尺寸缩到与物体比例相称，否则边缘会过曝。</li>
+<li><strong>补光（Fill Light）</strong>：复制一盏灯放前方/侧方，提供背景信息，避免暗部死黑看不到细节。</li>
+<li><strong>形态光</strong>：再加一盏灯，让物体形态和材质质感真正显现（橡胶部分 vs 金属部分）。必要时把灯移到物体下方，补足底部细节。</li>
+</ol>
+<p><strong>真实色温</strong>：选中灯光后用着色器节点（Shift+A → 转换器 → <strong>黑体 Blackbody</strong>）控制色温——暖光约 3500K，冷光约 7500K。暖光放底部、冷光放顶部，渲染更有活力。节点可用 Ctrl+C / Ctrl+V 复制粘贴到另一盏灯。</p>
+<p><strong>强调局部细节</strong>：不要用整盏灯照亮全部；把灯<strong>缩小并贴近</strong>目标区域；区域光的&quot;扩散（Spread）&ldquo;值调低会形成聚光效果；形状可从正方形改为长方形。</p>
+<p><strong>练习方法与心法</strong>：</p>
+<ul>
+<li>拿一个物体，从<strong>一盏灯</strong>开始，移动它找有趣的阴影，再慢慢加灯。</li>
+<li>最大进步来自&quot;用最少的灯&rdquo;：动画/产品照明通常 2~3 盏就够。</li>
+<li>灯在物体<strong>侧面或后方</strong>往往比正面更出效果；正面灯太多会毁掉渲染。</li>
+</ul>
+<hr />
+<h2 id="-4-understand-material-basics-8--41-">第 4 课：理解材质基础（Understand Material Basics，约 8 分 41 秒）</h2>
+<p><strong>重要前提</strong>：透射等材质在 <strong>Cycles</strong> 渲染引擎下才正常（Eevee 效果差）；有 GPU 就在渲染设置里选 GPU。先布好一个已知的光照环境，才能看清材质。</p>
+<p>默认新材质 = <strong>Principled BSDF 主着色器</strong>，核心参数逐一讲解：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+<th>要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>颜色 Color</td>
+<td>物体基础色</td>
+<td>直观</td>
+</tr>
+<tr>
+<td>粗糙度 Roughness</td>
+<td>0 = 光滑闪亮，1 = 粗糙哑光</td>
+<td>控制材质质感最常用的滑杆</td>
+</tr>
+<tr>
+<td>金属度 Metallic</td>
+<td>0 = 非金属，1 = 金属</td>
+<td>拉满即出现金色金属质感；做金材质建议用低饱和度颜色更真实</td>
+</tr>
+<tr>
+<td>透射 Transmission</td>
+<td>1 = 光穿透，变成玻璃</td>
+<td>只在 Cycles 有效；<strong>金属度=1 时透射失效</strong>，需先归零；调低颜色饱和度做有色玻璃；配合粗糙度做磨砂玻璃；&ldquo;透射粗糙度&quot;可做外表面光滑、内部雾化的效果</td>
+</tr>
+<tr>
+<td>光泽 Sheen</td>
+<td>表面微绒毛感</td>
+<td>拉高（如 60）出现天鹅绒质感，适合塑料</td>
+</tr>
+<tr>
+<td>透明涂层 Clearcoat</td>
+<td>第二层粗糙度</td>
+<td>金属漆 + 低粗糙度清漆层 = 汽车漆效果</td>
+</tr>
+<tr>
+<td>次表面散射 Subsurface</td>
+<td>光穿透并在内部散射</td>
+<td>做皮肤、蜡、橡胶；例如角色耳后透光；数值取决于物体比例</td>
+</tr>
+<tr>
+<td>IOR 折射率</td>
+<td>光穿过时的折射程度</td>
+<td>做超写实玻璃/塑料可上网查各材质折射率表</td>
+</tr>
+</tbody>
+</table>
+<p><strong>练习建议</strong>：在现实世界找材料，用这些滑块尝试复刻。</p>
+<hr />
+<h2 id="-5-use-procedural-textures-8-">第 5 课：使用程序纹理（Use Procedural Textures，约 8 分钟）</h2>
+<p><strong>什么是程序纹理</strong>：由数学定义、内置在 Blender 中，无需下载图片文件，就能给基础着色器增加细节层次。</p>
+<p><strong>节点工作流</strong>：按 <strong>Ctrl+T</strong> 自动添加&quot;纹理坐标 + 映射&quot;节点；<strong>Ctrl+Shift+左键</strong>点击任意节点即可预览效果。程序纹理建议用 <strong>Object 坐标</strong>（物体未 UV 展开时不会拉伸）。</p>
+<p><strong>本课实例</strong>（椅子+房间场景）：</p>
+<ul>
+<li><strong>Voronoi 纹理（气泡状）→ 皮革</strong>：配合&quot;矢量 → 凹凸 Bump&quot;节点，把 Distance 接 Height，强度压到很低；方向反了可用&quot;反相&quot;翻转。粗糙度相应调低一点，皮革更柔和。</li>
+<li><strong>波浪/花岗岩纹理 → 地板</strong>：同样的 Bump 工作流，Distance 压到 0.01 级别，做出细微起伏。</li>
+<li><strong>噪点纹理 Noise → 石膏墙</strong>：讲师用得最多；Scale 控制大小，另有细节（Detail）、粗糙度、失真（Distortion）参数。</li>
+<li><strong>图像转凹凸 → 画作笔触</strong>：把绘画贴图颜色接到 Bump 高度，颜色会被转成黑白做凹凸，画出立体笔触。</li>
+<li><strong>魔法纹理 Magic → 布料</strong>：把 Factor 接到 Alpha 做半透明花纹，也可再接入 Bump 增加织物质感。</li>
+</ul>
+<p><strong>进阶细节</strong>：纹理的大小必须与<strong>观察距离</strong>匹配——靠近看要调大 Scale，远离看要调小，这是&quot;初学者 vs 高级渲染者&quot;的分水岭。</p>
+<p>程序纹理可以接入颜色、粗糙度、金属度、Alpha 等任何通道。</p>
+<hr />
+<h2 id="-6-utilize-image-textures-12-">第 6 课：利用图像纹理（Utilize Image Textures，约 12 分钟）</h2>
+<p><strong>与程序纹理的区别</strong>：图像纹理使用真实图片文件，需要 <strong>UV 贴图</strong>——想象把糖纸包在糖果上，从平面图像包裹到 3D 模型的过程叫 <strong>UV 展开</strong>。</p>
+<p><strong>UV 展开流程</strong>：编辑模式（Tab）→ 选中边缘线 → Ctrl+E <strong>标记接缝</strong>（放在模型自然的位置，如边缘、底部）→ 按 U <strong>展开</strong> → 在 UV 编辑器调整各 UV 岛的位置/缩放/翻转（反了按 -1 缩放）→ 视口贴图模式下检查纹理方向。没有接缝也可以先用<strong>智能 UV 投射</strong>让 Blender 自动猜测。</p>
+<p><strong>实例 1：化妆品瓶贴标签</strong>：图像纹理接颜色出标签；同一张贴图接 Roughness 做出斑点光泽，接 Bump 做凹凸；黑白图可用&quot;混合 Mix&quot;节点重映射成任意颜色（黑=0 白=1）。</p>
+<p><strong>实例 2：椅子木纹</strong>：先用 Ctrl+A 把细分曲面、实体化等修改器<strong>全部应用</strong>，拿到基础网格再做 UV 展开；在木料自然分界处标记接缝，展开后纹理流向自然。</p>
+<p><strong>实例 3：PBR 石墙（写实工作流，Poly Haven 下载的贴图组）</strong>：</p>
+<ul>
+<li><strong>漫反射（Diffuse）</strong> → 颜色输入</li>
+<li><strong>粗糙度（Roughness）</strong> → 粗糙度输入；注意数据类贴图的色彩空间要改成 <strong>Non-Color（非颜色）</strong>；粗糙度贴图偏暗可能是因为来源软件用的是&quot;光泽度&quot;概念，需反向处理</li>
+<li><strong>法线（Normal）</strong> → 必须经过&quot;法线贴图 Normal Map&quot;节点，色彩空间改 Non-Color，Strength 控制强度</li>
+<li><strong>置换（Displacement）</strong> → 位移输入；需要右键细分网格（或加细分修改器）让几何真正变形，材质设置里把置换模式改为 <strong>&ldquo;位移和凹凸 Displacement and Bump&rdquo;</strong> 才会渲染出置换</li>
+</ul>
+<p><strong>结论</strong>：仅凭一个平面 + 3~4 张免费贴图，无需建模就能渲染出超写实石墙。</p>
+<hr />
+<h2 id="-7-explore-render-settings-5-">第 7 课：探索渲染设置（Explore Render Settings，约 5 分钟）</h2>
+<p>把前面所有纹理整合进房间场景，正式出图：</p>
+<ul>
+<li><strong>多相机</strong>：复制相机得到新机位，按 <strong>Ctrl+小键盘 0</strong> 切换为活动相机视角。</li>
+<li><strong>构图</strong>：视口叠加层 → 构图辅助线 → <strong>三分法</strong>，把主体（椅子）放在线条/交叉点上；换个近景角度展示椅面画作与地板。</li>
+<li><strong>色彩管理</strong>：渲染设置 → 颜色管理 → 变换（Look）调高对比度，避免画面发灰（讲师偏好高对比）。</li>
+<li><strong>输出设置</strong>：分辨率按需设定；快速预览用 JPEG（文件小），成品用 PNG（质量更好）。</li>
+<li><strong>采样</strong>：用 GPU 渲染；开启<strong>去噪</strong>后约 <strong>600 采样</strong>已足够，最终渲染甚至可以再低。</li>
+<li><strong>景深（DoF）</strong>：Shift+A 添加一个 <strong>空物体 Empty</strong>（球体，重命名为 focus），移到想对焦的位置；相机属性 → 景深 → 聚焦对象选它；F-stop 别调太低，自然的虚化会突出椅子主角，同时保留石墙受光、画作和雕像的暗示。</li>
+<li><strong>出图</strong>：按 <strong>F12</strong> 渲染 → 图像 → 另存为 PNG → 可分享到 Instagram / Facebook / Twitter / ArtStation 等平台。</li>
+</ul>
+<hr />
+<h2 id="-8-final-thoughts-1--23-">第 8 课：结语（Final Thoughts，约 1 分 23 秒）</h2>
+<p>课程核心收获：</p>
+<ol>
+<li><strong>少即是多</strong>——尤其是灯光：尽量少用灯（2~3 盏），不够亮就加功率，而不是加灯。</li>
+<li>材质灵感无处不在——用程序纹理和滑块去复刻现实中的材料。</li>
+<li>程序纹理可以接到任何通道（颜色、粗糙度、金属度、Alpha……）。</li>
+<li>不必在每个项目都用上所有技巧；<strong>聚焦画面质量与你想讲的故事</strong>，保持简单，做出让自己骄傲的作品。</li>
+</ol>
+<hr />
+<h2 id="heading-1">实用快捷键速查（课程中出现）</h2>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shift+A</td>
+<td>添加对象（灯光/纹理/节点）</td>
+</tr>
+<tr>
+<td>Ctrl+T</td>
+<td>Node Wrangler：一键生成纹理坐标 + 映射节点</td>
+</tr>
+<tr>
+<td>Ctrl+Shift+左键</td>
+<td>预览任意节点效果</td>
+</tr>
+<tr>
+<td>Ctrl+C / Ctrl+V</td>
+<td>复制/粘贴节点</td>
+</tr>
+<tr>
+<td>Ctrl+D</td>
+<td>复制对象（如复制灯光/相机）</td>
+</tr>
+<tr>
+<td>Ctrl+小键盘 0</td>
+<td>切换为活动相机视角</td>
+</tr>
+<tr>
+<td>Ctrl+E → 标记接缝</td>
+<td>UV 展开前标记接缝</td>
+</tr>
+<tr>
+<td>U</td>
+<td>展开 UV / 智能 UV 投射</td>
+</tr>
+<tr>
+<td>Tab</td>
+<td>进入/退出编辑模式</td>
+</tr>
+<tr>
+<td>Ctrl+A</td>
+<td>应用修改器</td>
+</tr>
+<tr>
+<td>F12</td>
+<td>渲染当前帧</td>
+</tr>
+</tbody>
+</table>
+
+  </div>
+
+  
+  <nav class="post-nav">
+    
+    <div class="post-nav-card post-nav-card--empty">
+      <div class="post-nav-card__body">
+        <span class="post-nav-card__label meta-text">上一篇</span>
+        <span class="post-nav-card__empty-text">没有上一篇了~</span>
+      </div>
+    </div>
+    
+    
+    <a href="/post/minimax-h3ti-shi-ci-you-hua/" class="post-nav-card post-nav-card--next">
+      <div class="post-nav-card__body">
+        <span class="post-nav-card__label meta-text">下一篇</span>
+        <span class="post-nav-card__title">MiniMax H3提示词优化</span>
+      </div>
+      
+      <span class="post-nav-card__arrow">&rarr;</span>
+    </a>
+    
+  </nav>
+
+  
+  
+
+
+</article>
+
+  </main>
+
+  <footer class="site-footer">
+  <div class="footer-inner">
+
+    
+    
+    <nav class="footer-nav" aria-label="页脚导航">
+      
+      <a class="footer-nav__link" href="/">首页</a>
+      
+      <a class="footer-nav__link" href="/post">博客</a>
+      
+      <a class="footer-nav__link" href="/archives">归档</a>
+      
+      <a class="footer-nav__link" href="/post/about">关于</a>
+      
+      <a class="footer-nav__link" href="/memos">小记</a>
+      
+    </nav>
+    
+
+    
+    <div class="footer-social">
+      
+      
+      
+      <a class="footer-social__link" href="/feed.xml" aria-label="RSS">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.18 15.64a2.18 2.18 0 110 4.36 2.18 2.18 0 010-4.36zM4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
+        </svg>
+      </a>
+    </div>
+
+    
+    <div class="footer-copyright">
+      <p>&copy; 2026 Tolozine‘Blog. All rights reserved.</p>
+    </div>
+
+    
+    
+
+    
+    <div class="footer-powered">
+      <span>Powered by <a href="https://gridea.pro" target="_blank" rel="noopener noreferrer">Gridea Pro</a></span>
+    </div>
+
+  </div>
+</footer>
+
+  
+  <div class="search-overlay" id="searchOverlay" style="display:none;">
+  <div class="search-modal">
+    <div class="search-header">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="搜索文章..." autocomplete="off" />
+      <span class="search-kbd">&#8984;K</span>
+      <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="/scripts/search.js"></script>
+  
+
+  
+
+  
+
+  
+
+<script>console.log("\n%c ✦ Gridea Pro v1.2.2 %c · Theme: flavor-theme v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>
