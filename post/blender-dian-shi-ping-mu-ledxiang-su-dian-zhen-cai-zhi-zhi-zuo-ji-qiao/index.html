@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="stylesheet" href="/styles/main.min.css">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+
+
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+
+
+<style>:root { --heatmap-color: #39d353; }</style>
+
+
+
+<style>
+  .theme-toggle-sun  { display: flex; }
+  .theme-toggle-moon { display: none; }
+  :root.theme-light .theme-toggle-sun  { display: none; }
+  :root.theme-light .theme-toggle-moon { display: flex; }
+</style>
+
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('flavor-theme');
+      var theme = saved || 'light';
+      if (theme === 'light') {
+        document.documentElement.classList.add('theme-light');
+      }
+    } catch (e) { }
+  })();
+</script>
+  <meta name="generator" content="Gridea Pro 1.2.2">
+  <title>Blender 电视屏幕 LED像素点阵材质制作技巧 | Tolozine‘Blog</title>
+  
+<meta property="og:title" content="Blender 电视屏幕 LED像素点阵材质制作技巧" />
+<meta property="og:type" content="article" />
+
+
+<meta name="description" content="目标效果 在电视产品渲染或微距镜头中，普通的 Movie Texture → Emission 往往会让电视屏幕看起来像一块单纯发光的平面，缺少真实屏幕近距离拍摄时能看到的像素结构。 我们希望实现的效果包括： 屏幕内容保持原有颜色与动态； 近距离可以看到密集的 LED / LCD 像素点阵； 像素之间存在细小暗缝； 像素边缘不是绝对硬边，避免过强 CG 感； 相机远离屏幕后，像&amp;hellip;">
+<link rel="canonical" href="https://tolozine.github.io/post/blender-dian-shi-ping-mu-ledxiang-su-dian-zhen-cai-zhi-zhi-zuo-ji-qiao/">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Blender 电视屏幕 LED像素点阵材质制作技巧","url":"https://tolozine.github.io/post/blender-dian-shi-ping-mu-ledxiang-su-dian-zhen-cai-zhi-zhi-zuo-ji-qiao/","description":"目标效果 在电视产品渲染或微距镜头中，普通的 Movie Texture → Emission 往往会让电视屏幕看起来像一块单纯发光的平面，缺少真实屏幕近距离拍摄时能看到的像素结构。 我们希望实现的效果包括： 屏幕内容保持原有颜色与动态； 近距离可以看到密集的 LED / LCD 像素点阵； 像素之间存在细小暗缝； 像素边缘不是绝对硬边，避免过强 CG 感； 相机远离屏幕后，像\u0026hellip;","datePublished":"2026-09-21T08:32:47+08:00","dateModified":"2026-09-21T08:32:47+08:00","author":{"@type":"Person","name":"Tolozine‘Blog"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/images/avatar.png"},"name":"Tolozine‘Blog"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://tolozine.github.io","name":"Tolozine‘Blog","position":1},{"@type":"ListItem","item":"https://tolozine.github.io/post/blender-dian-shi-ping-mu-ledxiang-su-dian-zhen-cai-zhi-zhi-zuo-ji-qiao/","name":"Blender 电视屏幕 LED像素点阵材质制作技巧","position":2}]}</script>
+<meta property="og:title" content="Blender 电视屏幕 LED像素点阵材质制作技巧">
+<meta property="og:description" content="目标效果 在电视产品渲染或微距镜头中，普通的 Movie Texture → Emission 往往会让电视屏幕看起来像一块单纯发光的平面，缺少真实屏幕近距离拍摄时能看到的像素结构。 我们希望实现的效果包括： 屏幕内容保持原有颜色与动态； 近距离可以看到密集的 LED / LCD 像素点阵； 像素之间存在细小暗缝； 像素边缘不是绝对硬边，避免过强 CG 感； 相机远离屏幕后，像&amp;hellip;">
+<meta property="og:url" content="https://tolozine.github.io/post/blender-dian-shi-ping-mu-ledxiang-su-dian-zhen-cai-zhi-zhi-zuo-ji-qiao/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tolozine‘Blog">
+<meta property="og:image" content="/images/avatar.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://tolozine.github.io/post/blender-dian-shi-ping-mu-ledxiang-su-dian-zhen-cai-zhi-zhi-zuo-ji-qiao/">
+<meta name="twitter:title" content="Blender 电视屏幕 LED像素点阵材质制作技巧">
+<meta name="twitter:description" content="目标效果 在电视产品渲染或微距镜头中，普通的 Movie Texture → Emission 往往会让电视屏幕看起来像一块单纯发光的平面，缺少真实屏幕近距离拍摄时能看到的像素结构。 我们希望实现的效果包括： 屏幕内容保持原有颜色与动态； 近距离可以看到密集的 LED / LCD 像素点阵； 像素之间存在细小暗缝； 像素边缘不是绝对硬边，避免过强 CG 感； 相机远离屏幕后，像&amp;hellip;">
+<meta name="twitter:image" content="/images/avatar.png">
+<meta name="twitter:site" content="@tolozine">
+<meta name="twitter:creator" content="@tolozine">
+</head>
+<body class="flavor-theme">
+
+  <header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <div class="top-bar">
+
+      
+      <div class="top-bar__left">
+        
+        <a href="https://tolozine.github.io" class="site-avatar-link" aria-label="返回首页">
+          <img class="site-avatar" src="/images/theme/Tolozine LOGO.png" alt="Tolozine‘Blog" />
+        </a>
+        
+        <a href="https://tolozine.github.io" class="site-name-link">Tolozine‘Blog</a>
+      </div>
+
+      
+      <nav class="top-bar__nav" id="sectionBar">
+        
+        
+        <a class="nav-item" href="/">首页</a>
+        
+        <a class="nav-item" href="/post">博客</a>
+        
+        <a class="nav-item" href="/archives">归档</a>
+        
+        <a class="nav-item" href="/post/about">关于</a>
+        
+        <a class="nav-item" href="/memos">小记</a>
+        
+        
+      </nav>
+
+      
+      <div class="top-bar__right">
+        <button class="btn-icon btn-search search-btn" id="btnSearch" type="button" aria-label="搜索">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <button class="btn-icon theme-toggle theme-toggle-sun" id="themeToggleSun" type="button"
+          aria-label="切换到浅色模式">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 1C12.5523 1 13 1.44772 13 2V4C13 4.55228 12.5523 5 12 5C11.4477 5 11 4.55228 11 4V2C11 1.44772 11.4477 1 12 1Z"></path>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12ZM12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z"></path>
+            <path d="M13 20C13 19.4477 12.5523 19 12 19C11.4477 19 11 19.4477 11 20V22C11 22.5523 11.4477 23 12 23C12.5523 23 13 22.5523 13 22V20Z"></path>
+            <path d="M4.22282 4.22289C4.61335 3.83236 5.24651 3.83236 5.63704 4.22289L7.04704 5.63289C7.43756 6.02341 7.43756 6.65658 7.04704 7.0471C6.65651 7.43762 6.02335 7.43762 5.63283 7.0471L4.22282 5.6371C3.8323 5.24658 3.8323 4.61341 4.22282 4.22289Z"></path>
+            <path d="M18.367 16.9529C17.9765 16.5623 17.3433 16.5623 16.9528 16.9529C16.5623 17.3434 16.5623 17.9766 16.9528 18.3671L18.3628 19.7771C18.7533 20.1676 19.3865 20.1676 19.777 19.7771C20.1675 19.3866 20.1675 18.7534 19.777 18.3629L18.367 16.9529Z"></path>
+            <path d="M1 12C1 11.4477 1.44772 11 2 11H4C4.55228 11 5 11.4477 5 12C5 12.5523 4.55228 13 4 13H2C1.44772 13 1 12.5523 1 12Z"></path>
+            <path d="M20 11C19.4477 11 19 11.4477 19 12C19 12.5523 19.4477 13 20 13H22C22.5523 13 23 12.5523 23 12C23 11.4477 22.5523 11 22 11H20Z"></path>
+            <path d="M7.04704 16.9529C7.43756 17.3434 7.43756 17.9766 7.04704 18.3671L5.63704 19.7771C5.24651 20.1676 4.61335 20.1676 4.22282 19.7771C3.8323 19.3866 3.8323 18.7534 4.22283 18.3629L5.63283 16.9529C6.02335 16.5623 6.65651 16.5623 7.04704 16.9529Z"></path>
+            <path d="M19.777 5.6371C20.1675 5.24657 20.1675 4.61341 19.777 4.22289C19.3865 3.83236 18.7533 3.83236 18.3628 4.22289L16.9528 5.63289C16.5623 6.02341 16.5623 6.65658 16.9528 7.0471C17.3433 7.43762 17.9765 7.43762 18.367 7.0471L19.777 5.6371Z"></path>
+          </svg>
+        </button>
+        <button class="btn-icon theme-toggle theme-toggle-moon" id="themeToggleMoon" type="button"
+          aria-label="切换到深色模式">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.0222 2 8.08879 2.58649 6.4443 3.6853C4.79981 4.78412 3.51809 6.3459 2.76121 8.17317C2.00433 10.0004 1.8063 12.0111 2.19215 13.9509C2.578 15.8907 3.53041 17.6725 4.92894 19.0711C6.32746 20.4696 8.10929 21.422 10.0491 21.8079C11.9889 22.1937 13.9996 21.9957 15.8268 21.2388C17.6541 20.4819 19.2159 19.2002 20.3147 17.5557C21.4135 15.9112 22 13.9778 22 12C22 11.5955 21.7564 11.2309 21.3827 11.0761C21.009 10.9213 20.5789 11.0069 20.2929 11.2929C19.287 12.2988 17.9226 12.864 16.5 12.864C15.0774 12.864 13.713 12.2988 12.7071 11.2929C11.7012 10.287 11.136 8.92261 11.136 7.5C11.136 6.07739 11.7012 4.71304 12.7071 3.70711C12.9931 3.42111 13.0787 2.99099 12.9239 2.61732C12.7691 2.24364 12.4045 2 12 2ZM7.55544 5.34824C8.27036 4.87055 9.05353 4.51389 9.87357 4.28778C9.39271 5.27979 9.13604 6.37666 9.13604 7.5C9.13604 9.45304 9.91189 11.3261 11.2929 12.7071C12.6739 14.0881 14.547 14.864 16.5 14.864C17.6233 14.864 18.7202 14.6073 19.7122 14.1264C19.4861 14.9465 19.1295 15.7296 18.6518 16.4446C17.7727 17.7602 16.5233 18.7855 15.0615 19.391C13.5997 19.9965 11.9911 20.155 10.4393 19.8463C8.88743 19.5376 7.46197 18.7757 6.34315 17.6569C5.21447 16.538 4.4624 15.1126 4.15372 13.5607C3.84504 12.0089 4.00347 10.4003 4.60897 8.93853C5.21447 7.47672 6.23985 6.22729 7.55544 5.34824Z"></path>
+            <path d="M19 2C19.5523 2 20 2.44772 20 3V4H21C21.5523 4 22 4.44772 22 5C22 5.55228 21.5523 6 21 6H20V7C20 7.55228 19.5523 8 19 8C18.4477 8 18 7.55228 18 7V6H17C16.4477 6 16 5.55228 16 5C16 4.44772 16.4477 4 17 4H18V3C18 2.44772 18.4477 2 19 2Z"></path>
+          </svg>
+        </button>
+        <button class="btn-icon btn-nav-toggle mobile-only" id="btnNavToggle" type="button" aria-label="切换导航">
+          <div class="hamburger" id="hamburger">
+            <span class="hamburger__line hamburger__line--top"></span>
+            <span class="hamburger__line hamburger__line--bottom"></span>
+          </div>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<div class="header-spacer"></div>
+
+<script>
+(function(){
+  var btn = document.getElementById('btnNavToggle');
+  var nav = document.getElementById('sectionBar');
+  var hamburger = document.getElementById('hamburger');
+  if (btn && nav) {
+    btn.addEventListener('click', function(){
+      nav.classList.toggle('top-bar__nav--open');
+      if (hamburger) hamburger.classList.toggle('is-active');
+    });
+    nav.querySelectorAll('.nav-item').forEach(function(item){
+      item.addEventListener('click', function(){
+        nav.classList.remove('top-bar__nav--open');
+        if (hamburger) hamburger.classList.remove('is-active');
+      });
+    });
+  }
+
+  var root = document.documentElement;
+  var applyTheme = function(theme, persist){
+    if (theme === 'light') {
+      root.classList.add('theme-light');
+    } else {
+      root.classList.remove('theme-light');
+    }
+    if (persist) {
+      try { localStorage.setItem('flavor-theme', theme); } catch (e) {}
+    }
+  };
+  document.querySelectorAll('.theme-toggle').forEach(function(el){
+    el.addEventListener('click', function(){
+      applyTheme(root.classList.contains('theme-light') ? 'dark' : 'light', true);
+    });
+  });
+})();
+</script>
+
+  <main class="site-main" role="main">
+    
+<article class="article-container">
+  <header class="article-header">
+    <h1 class="article-title">Blender 电视屏幕 LED像素点阵材质制作技巧</h1>
+    <div class="article-meta">
+      
+      
+      <a href="/category/blender/" class="article-meta__category">Blender</a>
+      
+      
+      <span class="article-meta__sep">·</span>
+      
+      <span class="article-meta__item">2026-09-21</span>
+      
+      <span class="article-meta__sep">·</span>
+      <span class="article-meta__item">12 分钟阅读</span>
+      
+    </div>
+    
+    <div class="article-header__tags">
+      
+      <a href="/tag/blender/" class="tag-pill tag-pill--sm">Blender</a>
+      
+    </div>
+    
+  </header>
+
+  
+
+  <div class="article-content">
+    <ol>
+<li>目标效果</li>
+</ol>
+<p>在电视产品渲染或微距镜头中，普通的 Movie Texture → Emission 往往会让电视屏幕看起来像一块单纯发光的平面，缺少真实屏幕近距离拍摄时能看到的像素结构。</p>
+<p>我们希望实现的效果包括：</p>
+<p>屏幕内容保持原有颜色与动态；</p>
+<p>近距离可以看到密集的 LED / LCD 像素点阵；</p>
+<p>像素之间存在细小暗缝；</p>
+<p>像素边缘不是绝对硬边，避免过强 CG 感；</p>
+<p>相机远离屏幕后，像素结构自动消失；</p>
+<p>尽量减少预览和最终渲染中的摩尔纹；</p>
+<p>配合景深后，可以形成真实的电视屏幕微距摄影感。</p>
+<ol start="2">
+<li>核心思路</li>
+</ol>
+<p>不要直接用像素纹理替换电视画面，而是让像素结构作为一个 Mask 乘到电视内容上。</p>
+<p>基本结构：</p>
+<p>Movie Texture<br />
+│<br />
+├─────────────────────────┐<br />
+│                         │<br />
+▼                         │<br />
+Pixel Mask                      │<br />
+│                         │<br />
+▼                         │<br />
+Multiply                        │<br />
+│                         │<br />
+▼                         │<br />
+Pixel Version                   │<br />
+│<br />
+Normal Movie ───────────────────┤<br />
+▼<br />
+Mix<br />
+│<br />
+▼<br />
+Emission</p>
+<p>其中：</p>
+<p>Pixel Version = Movie Texture × Pixel Mask</p>
+<p>这样可以保留视频本身的：</p>
+<p>红色；</p>
+<p>绿色；</p>
+<p>蓝色；</p>
+<p>紫色；</p>
+<p>白色；</p>
+<p>动态变化；</p>
+<p>同时增加像素点阵结构。</p>
+<ol start="3">
+<li>使用两个 Wave Texture 制作程序化像素点阵</li>
+</ol>
+<p>这是最简单、最好调整的方法。</p>
+<p>节点结构</p>
+<p>Texture Coordinate<br />
+│<br />
+▼<br />
+UV<br />
+│<br />
+▼<br />
+Mapping<br />
+│<br />
+├────────────────┐<br />
+▼                ▼<br />
+Wave Texture        Wave Texture<br />
+Direction X         Direction Y<br />
+│                │<br />
+▼                ▼<br />
+ColorRamp          ColorRamp<br />
+│                │<br />
+└──────┬─────────┘<br />
+▼<br />
+Math Multiply<br />
+│<br />
+▼<br />
+Pixel Mask</p>
+<ol start="4">
+<li>Wave Texture 设置</li>
+</ol>
+<p>第一组用于控制横向重复：</p>
+<p>Wave Texture X<br />
+Wave Type: Bands<br />
+Bands Direction: X<br />
+Scale: 300～500<br />
+Distortion: 0<br />
+Detail: 0</p>
+<p>第二组用于控制纵向重复：</p>
+<p>Wave Texture Y<br />
+Wave Type: Bands<br />
+Bands Direction: Y<br />
+Scale: 180～300<br />
+Distortion: 0<br />
+Detail: 0</p>
+<p>如果需要更密集的像素，可以继续提高 Scale。</p>
+<p>例如：</p>
+<p>X Scale：400<br />
+Y Scale：250</p>
+<p>这是一个比较适合广告微距效果的起点。</p>
+<ol start="5">
+<li>不要直接使用 Greater Than</li>
+</ol>
+<p>虽然：</p>
+<p>Wave Texture<br />
+↓<br />
+Math &gt; Greater Than</p>
+<p>可以快速得到硬边点阵，但这种方式会产生大量高频硬边，非常容易出现：</p>
+<p>摩尔纹；</p>
+<p>锯齿；</p>
+<p>预览闪烁；</p>
+<p>运动时纹理跳动；</p>
+<p>远距离产生干涉条纹。</p>
+<p>因此更推荐：</p>
+<p>Wave Texture<br />
+↓<br />
+ColorRamp</p>
+<p>并让边缘有少量柔和过渡。</p>
+<p>例如：</p>
+<p>ColorRamp<br />
+Interpolation：Ease</p>
+<p>Black：0.58<br />
+White：0.72</p>
+<p>另一方向可以设置为：</p>
+<p>Black：0.55<br />
+White：0.68</p>
+<p>这样仍然能看到明确的像素结构，但不会像数学硬边一样容易产生摩尔纹。</p>
+<ol start="6">
+<li>制作矩形 LED / LCD 像素</li>
+</ol>
+<p>真实电视屏幕的像素通常不是完全正方形视觉结构。</p>
+<p>微距状态下，更适合制作成略微纵向拉长的矩形。</p>
+<p>目标可以理解为：</p>
+<p>▮ ▮ ▮ ▮ ▮ ▮<br />
+▮ ▮ ▮ ▮ ▮ ▮<br />
+▮ ▮ ▮ ▮ ▮ ▮</p>
+<p>而不是：</p>
+<p>■ ■ ■ ■ ■ ■<br />
+■ ■ ■ ■ ■ ■</p>
+<p>可以通过分别调整 X 和 Y 两个 ColorRamp 的黑白位置来改变宽高比例。</p>
+<p>例如：</p>
+<p>X Mask：<br />
+Black 0.60<br />
+White 0.72</p>
+<p>Y Mask：<br />
+Black 0.52<br />
+White 0.66</p>
+<p>最终得到略长的竖向发光单元。</p>
+<ol start="7">
+<li>像素间隙不要完全黑</li>
+</ol>
+<p>如果 Pixel Mask 的范围是：</p>
+<p>Pixel = 1<br />
+Gap = 0</p>
+<p>效果往往会非常像 CG 网格。</p>
+<p>同时极高的明暗对比会进一步放大摩尔纹。</p>
+<p>建议在 Pixel Mask 后增加：</p>
+<p>Map Range</p>
+<p>设置：</p>
+<p>From Min：0<br />
+From Max：1</p>
+<p>To Min：0.15～0.25<br />
+To Max：1</p>
+<p>例如：</p>
+<p>暗缝：0.20<br />
+亮点：1.00</p>
+<p>然后：</p>
+<p>Movie Texture × Pixel Mask</p>
+<p>得到：</p>
+<p>亮像素：正常亮度<br />
+暗缝：仍保留约 20% 画面亮度</p>
+<p>这会更接近真实电视屏幕在镜头中的表现。</p>
+<ol start="8">
+<li>与视频画面结合</li>
+</ol>
+<p>完整结构：</p>
+<p>Movie Texture Color<br />
+│<br />
+├──────────────┐<br />
+│              │<br />
+│          Pixel Mask<br />
+│              │<br />
+└──────┬───────┘<br />
+▼<br />
+Mix Color<br />
+Multiply<br />
+│<br />
+▼<br />
+Pixel Version</p>
+<p>推荐使用：</p>
+<p>Mix Color<br />
+Blend Mode：Multiply<br />
+Factor：1</p>
+<p>或者使用：</p>
+<p>Vector Math / Math</p>
+<p>根据实际节点类型选择。</p>
+<ol start="9">
+<li>使用 Camera Data 让像素随距离自动淡出</li>
+</ol>
+<p>这是非常重要的一步。</p>
+<p>真实情况下：</p>
+<p>相机贴近屏幕时，可以看到像素；</p>
+<p>中距离时，像素逐渐融合；</p>
+<p>正常观看距离时，不应该继续看到像素点阵。</p>
+<p>因此可以使用：</p>
+<p>Camera Data<br />
+↓<br />
+View Distance<br />
+↓<br />
+Map Range<br />
+↓<br />
+Mix Factor</p>
+<p>节点结构：</p>
+<p>Camera Data<br />
+View Distance<br />
+│<br />
+▼<br />
+Map Range<br />
+│<br />
+▼<br />
+Mix Factor</p>
+<p>Mix 两端分别接：</p>
+<p>A：普通 Movie Texture<br />
+B：带 Pixel Mask 的 Movie Texture</p>
+<p>完整逻辑：</p>
+<p>Normal Movie ────────────── A<br />
+<br />
+Mix<br />
+/<br />
+Pixel Version ────────────── B<br />
+▲<br />
+│<br />
+Camera Data → View Distance<br />
+↓<br />
+Map Range</p>
+<ol start="10">
+<li>Camera Data 推荐参数</li>
+</ol>
+<p>如果 Blender 场景单位为米，可以先测试：</p>
+<p>From Min：0.08<br />
+From Max：0.45</p>
+<p>To Min：1<br />
+To Max：0</p>
+<p>Clamp：ON</p>
+<p>含义：</p>
+<p>距离约 8 cm：<br />
+Pixel Strength ≈ 1<br />
+像素非常明显</p>
+<p>距离约 20 cm：<br />
+Pixel Strength 中等</p>
+<p>距离约 45 cm：<br />
+Pixel Strength ≈ 0<br />
+恢复普通电视画面</p>
+<p>Mix 节点应设置为：</p>
+<p>A = 普通画面<br />
+B = Pixel 画面</p>
+<p>因为：</p>
+<p>Factor = 0 → A<br />
+Factor = 1 → B</p>
+<p>因此：</p>
+<p>近距离 → Pixel Version<br />
+远距离 → Normal Movie</p>
+<ol start="11">
+<li>为什么预览模式容易出现摩尔纹</li>
+</ol>
+<p>摩尔纹主要来自：</p>
+<p>超高频像素纹理<br />
+×<br />
+Viewport 像素<br />
+×<br />
+相机角度<br />
+×<br />
+采样分辨率</p>
+<p>尤其是以下组合最容易出问题：</p>
+<p>非常高的 Wave Scale<br />
++<br />
+Greater Than 硬边<br />
++<br />
+纯黑缝隙<br />
++<br />
+低分辨率预览</p>
+<p>Material Preview 的窗口本身可能只有几百到一千像素宽，但材质内部可能已经生成了数百甚至上千条纹理。</p>
+<p>当纹理频率接近或超过显示像素采样能力时，就会产生：</p>
+<p>大面积波纹；</p>
+<p>条带；</p>
+<p>闪烁；</p>
+<p>彩色干涉；</p>
+<p>运动时跳动。</p>
+<ol start="12">
+<li>减少摩尔纹的 5 个关键方法</li>
+</ol>
+<p>方法 1：降低像素密度</p>
+<p>不要严格模拟 4K 电视的 3840 × 2160 像素。</p>
+<p>广告渲染更适合做“视觉模拟”。</p>
+<p>例如：</p>
+<p>X Scale：300～500<br />
+Y Scale：180～300</p>
+<p>比：</p>
+<p>X Scale：800～1500<br />
+Y Scale：450～900</p>
+<p>稳定很多。</p>
+<p>方法 2：使用柔和边缘</p>
+<p>不要：</p>
+<p>Greater Than</p>
+<p>优先使用：</p>
+<p>ColorRamp + Ease</p>
+<p>让像素边缘存在少量过渡。</p>
+<p>方法 3：降低像素与缝隙的反差</p>
+<p>不要：</p>
+<p>Pixel：1<br />
+Gap：0</p>
+<p>建议：</p>
+<p>Pixel：1<br />
+Gap：0.15～0.30</p>
+<p>方法 4：远距离关闭 Pixel Mask</p>
+<p>通过：</p>
+<p>Camera Data<br />
+→ View Distance<br />
+→ Map Range</p>
+<p>让像素只存在于真正的微距镜头中。</p>
+<p>这是最有效的处理方法之一。</p>
+<p>方法 5：以最终相机和最终分辨率判断</p>
+<p>不要仅根据 Material Preview 判断。</p>
+<p>最终应该检查：</p>
+<p>Rendered View<br />
++<br />
+最终 Camera<br />
++<br />
+最终输出分辨率</p>
+<p>例如最终视频输出为：</p>
+<p>3840 × 2160</p>
+<p>那么应该至少用接近实际输出尺寸的渲染测试来判断摩尔纹。</p>
+<ol start="13">
+<li>屏幕材质推荐结构</li>
+</ol>
+<p>基础版本：</p>
+<p>Movie Texture<br />
+↓<br />
+Pixel Mask<br />
+↓<br />
+Multiply<br />
+↓<br />
+Emission</p>
+<p>更完整版本：</p>
+<p>Movie Texture<br />
+│<br />
+├──────────────────────────────┐<br />
+│                              │<br />
+Pixel Mask                           │<br />
+│                              │<br />
+▼                              │<br />
+Multiply                             │<br />
+│                              │<br />
+Pixel Version                        │<br />
+│                              │<br />
+└─────────────┐                │<br />
+▼                │<br />
+Mix ◄─────────────┘<br />
+▲<br />
+│<br />
+Camera Data<br />
+View Distance<br />
+↓<br />
+Map Range<br />
+│<br />
+└────────→ Factor</p>
+<p>Mix Result<br />
+↓<br />
+Emission</p>
+<ol start="14">
+<li>推荐测试参数</li>
+</ol>
+<p>可以先用下面这一组作为标准测试：</p>
+<p>Pixel Pattern</p>
+<p>Wave X<br />
+Scale：400<br />
+Direction：X</p>
+<p>Wave Y<br />
+Scale：250<br />
+Direction：Y</p>
+<p>ColorRamp</p>
+<p>X：</p>
+<p>Interpolation：Ease<br />
+Black：0.58<br />
+White：0.72</p>
+<p>Y：</p>
+<p>Interpolation：Ease<br />
+Black：0.55<br />
+White：0.68</p>
+<p>Pixel Gap</p>
+<p>Map Range：</p>
+<p>0 → 0.20<br />
+1 → 1.00</p>
+<p>Camera Distance Fade</p>
+<p>Camera Data<br />
+View Distance</p>
+<p>Map Range：</p>
+<p>From Min：0.08<br />
+From Max：0.45</p>
+<p>To Min：1<br />
+To Max：0</p>
+<p>Clamp：ON</p>
+<p>Emission</p>
+<p>Strength：2～4</p>
+<p>根据电视内容亮度进一步调整。</p>
+<ol start="15">
+<li>微距镜头推荐设置</li>
+</ol>
+<p>屏幕像素材质必须配合镜头使用。</p>
+<p>可以测试：</p>
+<p>Lens：85～120 mm</p>
+<p>Camera Distance：<br />
+5～20 cm</p>
+<p>Camera Angle：<br />
+20°～40°</p>
+<p>Depth of Field：<br />
+ON</p>
+<p>F-Stop：<br />
+1.4～2.8</p>
+<p>焦点不要覆盖整个屏幕。</p>
+<p>理想状态是：</p>
+<p>近处：略微虚化</p>
+<p>焦点区域：<br />
+能清楚看到 Pixel Pattern</p>
+<p>远处：<br />
+再次逐渐虚化</p>
+<p>这样比整块屏幕所有像素都完全清晰更真实。</p>
+<ol start="16">
+<li>不建议追求“物理 1:1 像素”</li>
+</ol>
+<p>对于产品广告渲染，更合理的目标不是：</p>
+<p>真正制作 3840 × 2160 个电视像素。</p>
+<p>而是：</p>
+<p>让观众在微距镜头中相信这是一块真实电视屏幕。</p>
+<p>因此可以适度夸大像素尺寸。</p>
+<p>例如真实屏幕 Pixel Pitch 可能只有：</p>
+<p>约 0.3～0.4 mm</p>
+<p>视觉模拟可以放大到：</p>
+<p>约 0.5～0.8 mm</p>
+<p>这样：</p>
+<p>像素更容易被镜头捕捉；</p>
+<p>摩尔纹更容易控制；</p>
+<p>画面更适合广告表现；</p>
+<p>渲染稳定性更高。</p>
+<ol start="17">
+<li>更高级：制作 RGB 子像素</li>
+</ol>
+<p>如果需要真正的屏幕微距效果，可以继续把单个 Pixel 分成：</p>
+<p>R G B</p>
+<p>形成：</p>
+<p>│R│G│B│ │R│G│B│ │R│G│B│<br />
+│R│G│B│ │R│G│B│ │R│G│B│</p>
+<p>然后：</p>
+<p>Movie R Channel → Red Subpixel<br />
+Movie G Channel → Green Subpixel<br />
+Movie B Channel → Blue Subpixel</p>
+<p>相比普通单色 Pixel Mask，这种方式可以产生更真实的：</p>
+<p>RGB 彩边；</p>
+<p>微距屏幕结构；</p>
+<p>斜拍子像素效果；</p>
+<p>局部颜色混合；</p>
+<p>轻微采样干涉。</p>
+<p>但同时也更容易产生摩尔纹，因此更加需要：</p>
+<p>柔和边缘<br />
++<br />
+距离淡出<br />
++<br />
+景深<br />
++<br />
+合理的像素尺寸</p>
+<ol start="18">
+<li>最终推荐工作流</li>
+</ol>
+<p>建议按以下顺序制作：</p>
+<ol>
+<li>
+<p>Movie Texture 正常播放电视内容<br />
+↓</p>
+</li>
+<li>
+<p>两个 Wave Texture 制作 X/Y 点阵<br />
+↓</p>
+</li>
+<li>
+<p>ColorRamp 软化边缘<br />
+↓</p>
+</li>
+<li>
+<p>Multiply 得到 Pixel Mask<br />
+↓</p>
+</li>
+<li>
+<p>Map Range 抬高暗缝亮度<br />
+↓</p>
+</li>
+<li>
+<p>Pixel Mask × Movie Texture<br />
+↓</p>
+</li>
+<li>
+<p>得到 Pixel Version<br />
+↓</p>
+</li>
+<li>
+<p>Camera Data → View Distance<br />
+↓</p>
+</li>
+<li>
+<p>Map Range 转换成距离权重<br />
+↓</p>
+</li>
+<li>
+<p>Normal Movie 与 Pixel Version 混合<br />
+↓</p>
+</li>
+<li>
+<p>Emission 输出<br />
+↓</p>
+</li>
+<li>
+<p>使用微距相机 + DOF 检查效果<br />
+↓</p>
+</li>
+<li>
+<p>最终以 Rendered View 和实际输出分辨率检查摩尔纹</p>
+</li>
+<li>
+<p>核心原则</p>
+</li>
+</ol>
+<p>整个技巧可以总结为一句话：</p>
+<p>电视屏幕像素不是一直存在的装饰纹理，而应该只在相机足够靠近时被感知。</p>
+<p>因此真正决定效果质量的不是“像素做得多细”，而是：</p>
+<p>Pixel Pattern<br />
++<br />
+软边抗锯齿<br />
++<br />
+非纯黑暗缝<br />
++<br />
+Camera Distance Fade<br />
++<br />
+Depth of Field<br />
++<br />
+最终分辨率采样</p>
+<p>这几项一起使用，才能得到自然、稳定、接近真实电视屏幕微距摄影的效果。</p>
+
+  </div>
+
+  
+  <nav class="post-nav">
+    
+    <div class="post-nav-card post-nav-card--empty">
+      <div class="post-nav-card__body">
+        <span class="post-nav-card__label meta-text">上一篇</span>
+        <span class="post-nav-card__empty-text">没有上一篇了~</span>
+      </div>
+    </div>
+    
+    
+    <a href="/post/blender-shi-nei-ye-jing-guang-yuan-zhi-shi-dian/" class="post-nav-card post-nav-card--next">
+      <div class="post-nav-card__body">
+        <span class="post-nav-card__label meta-text">下一篇</span>
+        <span class="post-nav-card__title">Blender 室内夜景光源知识点</span>
+      </div>
+      
+      <span class="post-nav-card__arrow">&rarr;</span>
+    </a>
+    
+  </nav>
+
+  
+  
+
+
+</article>
+
+  </main>
+
+  <footer class="site-footer">
+  <div class="footer-inner">
+
+    
+    
+    <nav class="footer-nav" aria-label="页脚导航">
+      
+      <a class="footer-nav__link" href="/">首页</a>
+      
+      <a class="footer-nav__link" href="/post">博客</a>
+      
+      <a class="footer-nav__link" href="/archives">归档</a>
+      
+      <a class="footer-nav__link" href="/post/about">关于</a>
+      
+      <a class="footer-nav__link" href="/memos">小记</a>
+      
+    </nav>
+    
+
+    
+    <div class="footer-social">
+      
+      
+      
+      <a class="footer-social__link" href="/feed.xml" aria-label="RSS">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M6.18 15.64a2.18 2.18 0 110 4.36 2.18 2.18 0 010-4.36zM4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44zm0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
+        </svg>
+      </a>
+    </div>
+
+    
+    <div class="footer-copyright">
+      <p>&copy; 2026 Tolozine‘Blog. All rights reserved.</p>
+    </div>
+
+    
+    
+
+    
+    <div class="footer-powered">
+      <span>Powered by <a href="https://gridea.pro" target="_blank" rel="noopener noreferrer">Gridea Pro</a></span>
+    </div>
+
+  </div>
+</footer>
+
+  
+  <div class="search-overlay" id="searchOverlay" style="display:none;">
+  <div class="search-modal">
+    <div class="search-header">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="搜索文章..." autocomplete="off" />
+      <span class="search-kbd">&#8984;K</span>
+      <button class="search-close" id="searchClose" type="button" aria-label="关闭搜索">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="/scripts/search.js"></script>
+  
+
+  
+
+  
+
+  
+
+<script>console.log("\n%c ✦ Gridea Pro v1.2.2 %c · Theme: flavor-theme v1.0.0 · https://gridea.pro %c\n","color:#fadfa3;background:#111111;padding:9px 14px;border-radius:4px 0 0 4px;font-weight:500;font-size:12px","color:#e05c00;background:#fff3ec;padding:9px 14px;border-radius:0 4px 4px 0;font-size:11px","")</script>
+</body>
+</html>
